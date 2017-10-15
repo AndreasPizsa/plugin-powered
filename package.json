@@ -1,0 +1,82 @@
+{
+  "name": "plugin-powered",
+  "version": "0.0.1",
+  "description": "Your app powered by plugins 🚀💫",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore **/*.js",
+    "test": "npm run lint && npm run test-coverage",
+    "test-coverage": "cross-env NODE_ENV=test nyc ava",
+    "commit": "git cz",
+    "commitmsg": "commitlint -e",
+    "precommit": "npm test",
+    "prepublish": "npm test",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreasPizsa/plugin-powered.git"
+  },
+  "author": "Andreas Pizsa <hopster@gmail.com> (https://github.com/AndreasPizsa)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndreasPizsa/plugin-powered/issues"
+  },
+  "homepage": "https://github.com/AndreasPizsa/plugin-powered#readme",
+  "engines": {
+    "node": ">=8"
+  },
+  "devDependencies": {
+    "@andreaspizsa/eslint-config": "0.0.1",
+    "@commitlint/cli": "^4.1.1",
+    "@commitlint/config-angular": "^3.1.1",
+    "ava": "^0.22.0",
+    "codecov": "^2.3.0",
+    "commitizen": "^2.9.6",
+    "cors": "^2.8.4",
+    "cross-env": "^5.0.5",
+    "cz-conventional-changelog": "^2.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-ava": "^4.2.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "husky": "^0.14.3",
+    "nyc": "^11.2.1",
+    "sinon": "^4.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "eslintConfig": {
+    "plugins": [
+      "ava"
+    ],
+    "extends": [
+      "@andreaspizsa",
+      "plugin:ava/recommended"
+    ]
+  },
+  "keywords": [
+    "plugin",
+    "plugins",
+    "configure",
+    "middleware"
+  ]
+}
