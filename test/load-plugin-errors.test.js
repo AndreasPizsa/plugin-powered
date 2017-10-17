@@ -4,7 +4,8 @@ const usePlugins = require('../')
 
 test('logs an error if a plugin isn’t found', async t => {
   const options = {
-    errors : sinon.spy()
+    target: sinon.spy(),
+    errors: sinon.spy()
   }
   await usePlugins(FIXTURES.plugins.nonexisting, options)
   t.true(options.errors.calledOnce)
@@ -12,8 +13,9 @@ test('logs an error if a plugin isn’t found', async t => {
 
 test('logs an error if a plugin throws during initialization', async t => {
   const options = {
+    target: sinon.spy(),
     errors: sinon.spy(),
-    baseDir: './test/fixtures/plugins/'
+    dir: './test/fixtures/plugins/'
   }
   await usePlugins({
     './throws': true
@@ -23,9 +25,9 @@ test('logs an error if a plugin throws during initialization', async t => {
 
 test('continues `use`-ing after an errornous plugin', async t => {
   const options = {
-    use: sinon.spy(),
+    target: sinon.spy(),
     errors: sinon.spy(),
-    baseDir: './test/fixtures/plugins/'
+    dir: './test/fixtures/plugins/'
   }
   await usePlugins({
     './throws': true,
@@ -35,7 +37,7 @@ test('continues `use`-ing after an errornous plugin', async t => {
   }, options)
 
   t.true(options.pluginInitialized, 'initializes plugins')
-  t.true(options.use.calledTwice, 'calls target.use()')
+  t.true(options.target.calledTwice, 'calls target.use()')
   t.deepEqual(options.array, [1, 2], 'inintalizes plugins in the order specified')
   t.true(options.errors.calledTwice)
 })
@@ -43,7 +45,7 @@ test('continues `use`-ing after an errornous plugin', async t => {
 test.serial('it logs to `console.error` if `errors` is not a property', async t => {
   const originalError = console.error
   console.error = function error () { error.called = true }
-  await usePlugins(FIXTURES.plugins.nonexisting)
+  await usePlugins(sinon.spy(), FIXTURES.plugins.nonexisting)
   t.true(console.error.called)
   console.error = originalError
 })
@@ -51,6 +53,7 @@ test.serial('it logs to `console.error` if `errors` is not a property', async t 
 test.serial('it swallows errors if `errors` is `undefined`', async t => {
   sinon.spy(console, 'error')
   await usePlugins(FIXTURES.plugins.nonexisting, {
+    target: sinon.spy(),
     errors: null
   })
   t.false(console.error.called)
@@ -59,6 +62,7 @@ test.serial('it swallows errors if `errors` is `undefined`', async t => {
 
 test('it pushes to an array', async t => {
   const options = {
+    target: sinon.spy(),
     errors: []
   }
   await usePlugins(FIXTURES.plugins.nonexisting, options)
@@ -69,6 +73,7 @@ test('it pushes to an array', async t => {
 
 test('it calls a function', async t => {
   const options = {
+    target: sinon.spy(),
     errors: sinon.spy()
   }
   await usePlugins(FIXTURES.plugins.nonexisting, options)
@@ -80,6 +85,7 @@ test('it logs to a logger', async t => {
     error: sinon.spy()
   }
   const options = {
+    target: sinon.spy(),
     errors: logger
   }
   await usePlugins(FIXTURES.plugins.nonexisting, options)

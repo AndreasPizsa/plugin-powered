@@ -1,7 +1,7 @@
 {
   "name": "plugin-powered",
-  "version": "0.0.1",
-  "description": "Your app powered by plugins 🚀💫",
+  "version": "0.1.0",
+  "description": "Your app powered by plugins 🚀💫 Universal Plugin Loader",
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore **/*.js",
@@ -78,5 +78,9 @@
     "plugins",
     "configure",
     "middleware"
+  ],
+  "files": [
+    "src",
+    "index.js"
   ]
 }

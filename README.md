@@ -6,26 +6,22 @@
 
 # plugin-powered 🚀💫
 
-> Dynamic plugins everywhere
-
-# Motivation
+> Your app powered by plugins · Universal Plugin Loader
 
 Plugins are great to build modular, extensible apps. Many frameworks have a `use` or similar method to install plugins or _middleware_, but then the configuration is hardcoded, buried in code.
 
 We can do better.
 
-Ideally, you can
+# Features
 
-+ add, remove and configure plugins without changing code ✓
-+ install community plugins using `npm` or `yarn` ✓
-+ use a local directory for project-specific plugins ✓
-+ configure each plugin without changing code  ✓
-+ define the load order of plugins ✓
-+ Sometimes you may want to share configurations (like eslint) or build upon others (`extends`) TBD, out of scope
++ Add, remove and configure plugins without changing code ✓
++ Install community plugins using `npm` or `yarn` ✓
++ Use a local directory for project-specific plugins ✓
++ Define the load order of plugins ✓
++ Compatible with popular frameworks like Express, Micro, Koa, etc ✓
++ 100% code coverage ✓
 
-# Benefits
-
-+ Change configuration without touching code
+### Benefits
 + Use different configurations for development, test and production
 + Load configurations from files, databases, URLs, etc
 
@@ -51,18 +47,14 @@ Ideally, you can
 
 `index.js`
 ```js
-const usePlugins = require('plugin-powered')
+const loadPlugins = require('plugin-powered')
 const plugins = require('./plugins.json')
 
 const app = require('express')()
 
-const options = {
-  use: app.use.bind(app)
-}
-
-usePlugins(plugins, options)
+loadPlugins(app, plugins)
+// done! 🚀💫
 ```
-
 
 ## Installation
 
@@ -72,7 +64,35 @@ $ npm i plugin-powered
 
 # Usage
 
-WIP :P
+`loadPlugins(target, plugins[, options])`
+
+or
+
+`loadPlugins(plugins, options)`
+
+## target
+`object` | `function` | `Array`
+
+## plugins
+
+## options
+
+#### target
+`object` | `function` | `Array`
+
+optionally specifies where plugins should be installed.
+
+#### `use`
+optional
+`string`
+default: 'use'
+
+Name of the `use` method. `target[use]` must be a `function`
+
+#### `errors` optional
+`null` | `object` | `function` | `Array` | `Console` | logger
+
+-------------
 
 # Writing Plugins
 
@@ -84,21 +104,13 @@ module.exports = function plugin(options) {
 }
 ```
 
-> **Terminology**
->
-> The term **host** is used to generically refer to code that
-> uses plugins: apps, frameworks, modules, objects, etc.; if you had a web
-> server and wanted to use plugins with it, that web server would be the
-> _host_ of your plugins.
-
 ## Life Cycle
 
-1. **Loading.** A plugin module is loaded using `require`.
-2. **Initialization.** Its exported `function` is called with `options`
-3. **Use.** If the Initialization step returns a `function`, then it is added to its host by calling the `use` function, i.e. `use(pluginReturnValue)`.
-4. **Execution.**
-
-`plugin-powered` will `require` your module and then execute its exported function.
+1. **Resolve Name.** _`baseDir/`_`name`, _`baseDir/prefix-`_`name`, `name`, _`prefix-`_`name`
+2. **Loading.** The resolved module name is loaded using `require`.
+3. **Initialization.** Its exported `function` is called. `options` is passed as argument unless `options` is `true`, in which case no options are passed.
+4. **Use.** If the Initialization step returns a `function`, then it is added to its host by calling the `use` function, i.e. `use(pluginReturnValue)`.
+5. **Execution.**
 
 ### Plugin `options`
 
