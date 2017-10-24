@@ -30,7 +30,7 @@
     "@andreaspizsa/eslint-config": "0.0.1",
     "@commitlint/cli": "^4.1.1",
     "@commitlint/config-angular": "^4.2.0",
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "codecov": "^3.0.0",
     "commitizen": "^2.9.6",
     "cors": "^2.8.4",
