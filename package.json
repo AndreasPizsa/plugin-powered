@@ -33,7 +33,7 @@
     "ava": "^0.23.0",
     "codecov": "^3.0.0",
     "commitizen": "^2.9.6",
-    "cors": "^2.8.4",
+    "cors": "2.8.4",
     "cross-env": "^5.0.5",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^4.9.0",
